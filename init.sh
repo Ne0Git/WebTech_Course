@@ -7,3 +7,6 @@ sudo mysql -u root -e "CREATE DATABASE IF NOT EXISTS ask_dev DEFAULT CHARACTER S
 CREATE USER 'box'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON ask_dev.* TO 'box'@'localhost';
 FLUSH PRIVILEGES;"
+
+python /home/box/web/ask/manage.py makemigrations qa
+python /home/box/web/ask/manage.py migrate qa

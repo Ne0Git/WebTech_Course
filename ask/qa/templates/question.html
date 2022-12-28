@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>{{ question.title }}</title>
+</head>
+<body>
+	<h1>{{ question.title }}</h1>
+	<h5>Question added {{ question.added_at }} by {{ question.author }}</h5>
+	<p>{{ question.text }}</p>
+	<h5>Question rating: {{ question.rating }}</h5>
+	<h2>Answers:</h2>
+	{% for answer in answers %}
+	<h6>Answer added {{ answer.added_at }} by {{ answer.author }}</h6>
+	<p>{{ aswer.text }}</p>
+	{% endfor %}
+</body>
+</html>
