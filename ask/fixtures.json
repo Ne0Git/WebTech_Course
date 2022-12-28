@@ -16,7 +16,7 @@
   },
   {
     "model": "auth.user",
-    "pk": 1,
+    "pk": 2,
     "fields": {
       "password": "password",
       "last_login": "2022-12-28 23:54:40",
