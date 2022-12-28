@@ -62,7 +62,7 @@ def popular(request):
 	page, paginator = paginate(request, qs)
 	paginator.baseurl = reverse('popular') + '?page='
 	return render(request, 'popular.html', {
-		'question': page.object_list,
+		'questions': page.object_list,
 		'page': page,
 		'paginator': paginator,
 	})	
