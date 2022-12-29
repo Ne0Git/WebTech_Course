@@ -3,7 +3,8 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage
 from qa.models import Question
 from django.core.urlresolvers import reverse
-from qa.forms import AskForm, AnswerForm
+from qa.forms import AskForm, AnswerForm, SignupForm, LoginForm
+from django.contrib.auth import login, logout
 
 def test(request, *args, **kwargs):
 	return HttpResponse('OK')
@@ -58,6 +59,10 @@ def ask(request):
 	if request.method == 'POST':
 		form = AskForm(request.POST)
 		if form.is_valid():
+			if request.user.is_anonymous():
+				return HttpResponseRedirect('/login')
+
+			form.user = request.user
 			question = form.save()
 			url = reverse('question', args=[question.id])
 			return HttpResponseRedirect(url)
@@ -71,6 +76,10 @@ def answer(request):
 	if request.method == 'POST':
 		form = AnswerForm(request.POST)
 		if form.is_valid():
+			if request.user.is_anonymous():
+				return HttpResponseRedirect('/login')
+
+			form.user = request.user
 			answer = form.save()
 			url = reverse('question', args=[answer.question.id])
 			return HttpResponseRedirect(url)
@@ -88,3 +97,35 @@ def popular(request):
 
 def new(request):
 	return HttpResponse('OK')
+
+def signup(request):
+	if request.method == 'POST':
+		form = SignupForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			if user is not None:
+				login(request, user)
+				return HttpResponseRedirect('/')
+
+	form = SignupForm()
+	return render(request, 'signup.html', {
+		'form': form
+	})
+
+def login_user(request):
+	if request.method == 'POST':
+		form = LoginForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			if user is not None:
+				login(request, user)
+				return HttpResponseRedirect('/')
+
+	form = LoginForm()
+	return render(request, 'login.html', {
+		'form': form
+	})
+
+def logout_user(request):
+	logout(request)
+	return HttpResponseRedirect('/')
