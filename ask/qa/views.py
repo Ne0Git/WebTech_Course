@@ -39,12 +39,6 @@ def index(request):
 		'paginator': paginator,
 	})	
 
-def login(request):
-	return HttpResponse('OK')
-
-def signup(request):
-	return HttpResponse('OK')
-
 def question(request, pk):
 	question = get_object_or_404(Question, id=pk)
 	answers = question.answer_set.all()
