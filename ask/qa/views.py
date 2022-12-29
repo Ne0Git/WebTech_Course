@@ -29,9 +29,7 @@ def paginate(request, qs):
 	return page, paginator
 
 def index(request):
-	qs = Question.objects.all()
-	qs = qs.order_by('-added_at')
-	page, paginator = paginate(request, qs)
+	page, paginator = paginate(request, Question.objects.new())
 	paginator.baseurl = reverse('index') + '?page='
 	return render(request, 'index.html', {
 		'questions': page.object_list,
@@ -57,9 +55,7 @@ def ask(request):
 	return HttpResponse('OK')
 
 def popular(request):
-	qs = Question.objects.all()
-	qs = qs.order_by('-rating')
-	page, paginator = paginate(request, qs)
+	page, paginator = paginate(request, Question.objects.popular())
 	paginator.baseurl = reverse('popular') + '?page='
 	return render(request, 'popular.html', {
 		'questions': page.object_list,
